@@ -1,0 +1,40 @@
+query AllLinks {
+  allLinks {
+    id
+    title
+    createdAt
+    description
+    url
+    category
+  }
+}
+
+query AllCategories{
+  AllCategories{
+    id
+    name
+  }
+}
+
+mutation CreateLinkMutation {
+    createLink(
+      title:"hey"
+      description: "hey",
+      url: "B",
+    ) {
+      id
+      createdAt
+      url
+      description
+    }
+  }
+
+  mutation CreateCategoryMutation {
+    createCategory(
+      name:"Publication"
+
+    ) {
+      id
+			name
+    }
+  }

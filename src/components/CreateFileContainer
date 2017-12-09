@@ -1,0 +1,31 @@
+
+class CreateLinkContainer extends React.Component{
+  constructor() {
+  super();
+  this.state = {
+    selectValue: ''
+  }
+  }
+
+  handleOnChange(e) {
+    this.setState({
+      selectValue: e.target.value
+    });
+  }
+
+  render() {
+    const {selectValue} = this.state;
+    return(
+      <div>
+        <SelectionBox
+          handleOnChange={this.handleOnChange.bind(this)}
+        />
+        <TableDisplay
+          selectValue={selectValue}
+        >
+      </div>
+    )
+
+  }
+
+}
