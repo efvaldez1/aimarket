@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # React & Apollo Tutorial
 
 This is the sample project that belongs to the [React & Apollo Tutorial](https://www.howtographql.com/react-apollo/0-introduction/) on How to GraphQL.
@@ -43,3 +44,6 @@ yarn start # open http://localhost:3000 in your browser
 ```
 
 
+=======
+# aimarket
+>>>>>>> a1a46875162d72c879703d4954b675cd340d6385
