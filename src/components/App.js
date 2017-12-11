@@ -6,6 +6,7 @@ import Login from './Login'
 import Search from './Search'
 import CategoryList from './CategoryList'
 import CreateCategory from './CreateCategory'
+import CreateTag from './CreateTag'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
             <Route exact path='/search' component={Search}/>
             <Route exact path='/top' component={LinkList} />
             <Route exact path = '/category' component={CategoryList} />
+            <Route exact path='/createtag' component={CreateTag}/>
             <Route exact path='/new/:page' component={LinkList} />
           </Switch>
         </div>

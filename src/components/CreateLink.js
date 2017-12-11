@@ -4,26 +4,8 @@ import gql from 'graphql-tag'
 import { GC_USER_ID, LINKS_PER_PAGE } from '../constants'
 import { ALL_LINKS_QUERY } from './LinkList'
 import CategoryList from './CategoryList'
-//class CategoryList extends React.Component {
-//  render() {
-//    return (
-//      <div >
-//        <select name={this.props.name} >
-//          {
-//            this.props.combolist.map(function(category, i) {
-//              return (
-//                <option key={i} value={category.name}>
-//                  {category.name}
-//                </option>
-//              )
-//            })
-//          }
-//        </select>
-//      </div>
-//    );
-//  }
-//}
-
+import Select from 'react-select'
+import Multiselect from './Multiselect'
 
 class CreateLink extends Component {
   constructor() {
@@ -44,19 +26,11 @@ class CreateLink extends Component {
     url: '',
     category:'Publication'
   }
-  //submit(event){
-  //  event.preventDefault();
-    //alert(this.refs.form.mySelect.value)
-  //  console.log(this.refs.form.mySelect.value)
-  //  this.setState({ category: this.refs.form.mySelect.value})
-  //}
+
   render() {
-    const categoryToRender = this.props.allCategoryQuery.allCategories
-    //alert(categoryToRender)
+
     const combolist = [{id:1,name:'publication'},{id:2,name:'software'}]
-    //combolist=categoryToRender
-    // /const combolist= this.props.allCategoryQuery.allCategories
-    //const categoryToRender=combolist
+
     return (
       <div >
         <div className='flex flex-column mt3'>
@@ -85,9 +59,11 @@ class CreateLink extends Component {
         <div onChange={this.handleSelect}>
         Category (comes from API call. updates state after submit):
         <CategoryList  name='mySelect'
-          //updates value after hitting submit
         />
         </div>
+
+
+        <Multiselect label="Multiselect" />
 
         <div> You selected: {this.state.category}</div>
 
@@ -97,6 +73,8 @@ class CreateLink extends Component {
 
         <div> url:{this.state.description} </div>
         </div>
+
+
 
         <button
           onClick={() => this._createLink ()}

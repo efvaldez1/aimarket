@@ -17,6 +17,7 @@ class CategoryList extends Component {
     //const categoryToRender = [{name:'a'}]
     //alert(this.props.allCategoryQuery.allCategories)
     const categoryToRender = this.props.allCategoryQuery.allCategories
+    console.log(categoryToRender)
     return (
       <div>
       <select name={this.props.name}>

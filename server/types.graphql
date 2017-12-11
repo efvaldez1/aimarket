@@ -48,5 +48,5 @@ type Tag @model{
   id: ID! @isUnique
   name: String! @isUnique
   description: String!
-  link: [Link!] @relation(name: "LinksTags")
+  link: [Link!]! @relation(name: "LinkTags")
 }
