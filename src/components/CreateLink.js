@@ -4,18 +4,61 @@ import gql from 'graphql-tag'
 import { GC_USER_ID, LINKS_PER_PAGE } from '../constants'
 import { ALL_LINKS_QUERY } from './LinkList'
 import CategoryList from './CategoryList'
-class CreateLink extends Component {
+//class CategoryList extends React.Component {
+//  render() {
+//    return (
+//      <div >
+//        <select name={this.props.name} >
+//          {
+//            this.props.combolist.map(function(category, i) {
+//              return (
+//                <option key={i} value={category.name}>
+//                  {category.name}
+//                </option>
+//              )
+//            })
+//          }
+//        </select>
+//      </div>
+//    );
+//  }
+//}
 
+
+class CreateLink extends Component {
+  constructor() {
+    super();
+    this.handleSelect = this.handleSelect.bind(this);
+  }
+
+  handleSelect(event){
+
+    // /alert(this.refs.form.mySelect.value)
+    alert(event.target.value)
+    //console.log(this.refs.form.mySelect.value)
+    this.setState({ category: event.target.value})
+  }
   state = {
     title: '',
     description: '',
-    url: ''
+    url: '',
+    category:'Publication'
   }
-
+  //submit(event){
+  //  event.preventDefault();
+    //alert(this.refs.form.mySelect.value)
+  //  console.log(this.refs.form.mySelect.value)
+  //  this.setState({ category: this.refs.form.mySelect.value})
+  //}
   render() {
-    //const categoryToRender = this.props.allCategoryQuery.allCategories
+    const categoryToRender = this.props.allCategoryQuery.allCategories
+    //alert(categoryToRender)
+    const combolist = [{id:1,name:'publication'},{id:2,name:'software'}]
+    //combolist=categoryToRender
+    // /const combolist= this.props.allCategoryQuery.allCategories
+    //const categoryToRender=combolist
     return (
-      <div>
+      <div >
         <div className='flex flex-column mt3'>
         <input
           className='mb2'
@@ -39,12 +82,20 @@ class CreateLink extends Component {
             type='text'
             placeholder='The URL for the product'
           />
-        Category:
-        <CategoryList name="mySelect"
-
+        <div onChange={this.handleSelect}>
+        Category (comes from API call. updates state after submit):
+        <CategoryList  name='mySelect'
+          //updates value after hitting submit
         />
+        </div>
 
+        <div> You selected: {this.state.category}</div>
 
+        <div> title: {this.state.title}</div>
+
+        <div> description:{this.state.description} </div>
+
+        <div> url:{this.state.description} </div>
         </div>
 
         <button
@@ -52,22 +103,27 @@ class CreateLink extends Component {
         >
           Submit
         </button>
+
       </div>
     )
   }
 
   _createLink = async () => {
+    console.log(this.state.category)
+    console.log(this.state.title)
+    console.log('createLink')
     const postedById = localStorage.getItem(GC_USER_ID)
     if (!postedById) {
       console.error('No user logged in')
       return
     }
-    const { title,description, url } = this.state
-    await this.props.createLinkMutation({
-      variables: {
+    const { title,description, url,category } = this.state
+      await this.props.createLinkMutation({
+        variables: {
         title,
         description,
         url,
+        category,
         postedById
       },
       update: (store, { data: { createLink } }) => {
@@ -87,12 +143,13 @@ class CreateLink extends Component {
         })
       }
     })
+
     this.props.history.push(`/new/1`)
   }
 
 }
 
-/*const ALL_CATEGORY_QUERY = gql `
+const ALL_CATEGORY_QUERY = gql `
 query AllCategoryQuery{
   #graphql pluralises automatically
   allCategories{
@@ -101,27 +158,25 @@ query AllCategoryQuery{
   }
 }
 `
-*/
 
 //export default graphql(ALL_CATEGORY_QUERY,{name:'allCategoryQuery'}) (CategoryList)
+
 const CREATE_LINK_MUTATION = gql`
-    mutation CreateLinkMutation($title: String! ,$description: String!, $url: String!, $postedById: ID!,$categoryId : ID!) {
+    mutation CreateLinkMutation($title: String! ,$description: String!, $url: String!, $postedById: ID!, $category:String!) {
         createLink(
             title: $title,
             description: $description,
             url: $url,
+            category:$category
             postedById: $postedById
-            category: $categoryId
+
         ) {
             id
             title
             createdAt
             url
             description
-            category{
-              id
-              name
-            }
+            category
             postedBy {
                 id
                 name
@@ -130,9 +185,8 @@ const CREATE_LINK_MUTATION = gql`
     }
 `
 
-export default graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })(CreateLink)
-/*export default compose(
-  graphql(ALL_CATEGORY_QUERY,{name:'allCategoryQuery'}) (CategoryList),
-  graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })(CreateLink)
-)
-*/
+//export default graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })(CreateLink)
+export default compose(
+  graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' }),
+  graphql(ALL_CATEGORY_QUERY,{name:'allCategoryQuery'})
+)(CreateLink)

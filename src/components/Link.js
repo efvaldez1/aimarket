@@ -18,7 +18,7 @@ class Link extends Component {
           <div> Title: {this.props.link.title} </div>
           <div> Description: {this.props.link.description} </div>S
           <div> URL: {this.props.link.url}</div>
-          <div> Category: {this.props.link.category.name}  </div>
+          <div> Category: {this.props.link.category}  </div>
           <div className='f6 lh-copy gray'>{this.props.link.votes.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
         </div>
       </div>

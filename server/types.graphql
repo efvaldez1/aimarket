@@ -1,7 +1,6 @@
 type Category @model {
   id: ID! @isUnique
   name: String!
-  links: [Link!]! @relation(name: "LinksCategory")
 }
 
 type Link @model {
@@ -13,8 +12,9 @@ type Link @model {
   url: String!
   postedBy: User @relation(name: "UsersLinks")
   votes: [Vote!]! @relation(name: "VotesOnLink")
-  category: [Category!]! @relation(name: "LinksCategory")
+  category: String!
   offers: [Offer!]! @relation(name: "LinksOffer")
+  tags: [Tag!]! @relation(name: "LinkTags")
 }
 
 type Offer @model {
@@ -42,4 +42,11 @@ type Vote @model {
   id: ID! @isUnique
   user: User! @relation(name: "UsersVotes")
   link: Link! @relation(name: "VotesOnLink")
+}
+
+type Tag @model{
+  id: ID! @isUnique
+  name: String! @isUnique
+  description: String!
+  link: [Link!] @relation(name: "LinksTags")
 }

@@ -19,9 +19,9 @@ class CategoryList extends Component {
     const categoryToRender = this.props.allCategoryQuery.allCategories
     return (
       <div>
-      <select>
-      {categoryToRender.map((category)=>
-      (<option value={category.name}>
+      <select name={this.props.name}>
+      {categoryToRender.map((category,id)=>
+      (<option key={id} value={category.name}>
       {category.name}
       </option>))
       }

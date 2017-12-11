@@ -176,10 +176,7 @@ export const ALL_LINKS_QUERY = gql`
       createdAt
       url
       description
-      category{
-        id
-        name
-      }
+      category
       postedBy {
         id
         name
