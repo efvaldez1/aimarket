@@ -16,7 +16,7 @@ class CreateLink extends Component {
   handleSelect(event){
 
     // /alert(this.refs.form.mySelect.value)
-    alert(event.target.value)
+    //alert(event.target.value)
     //console.log(this.refs.form.mySelect.value)
     this.setState({ category: event.target.value})
   }
@@ -57,7 +57,7 @@ class CreateLink extends Component {
             placeholder='The URL for the product'
           />
         <div onChange={this.handleSelect}>
-        Category (comes from API call. updates state after submit):
+        Category :
         <CategoryList  name='mySelect'
         />
         </div>
@@ -65,13 +65,7 @@ class CreateLink extends Component {
 
         <Multiselect label="Multiselect" />
 
-        <div> You selected: {this.state.category}</div>
 
-        <div> title: {this.state.title}</div>
-
-        <div> description:{this.state.description} </div>
-
-        <div> url:{this.state.description} </div>
         </div>
 
 

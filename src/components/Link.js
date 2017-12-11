@@ -15,10 +15,10 @@ class Link extends Component {
           {userId && <div className='ml1 gray f11' onClick={() => this._voteForLink()}>Vote ▲ </div>}
         </div>
         <div className='ml1'>
-          <div> Title: {this.props.link.title} </div>
-          <div> Description: {this.props.link.description} </div>S
-          <div> URL: {this.props.link.url}</div>
-          <div> Category: {this.props.link.category}  </div>
+          <div> <strong>Title:</strong> {this.props.link.title} </div>
+          <div><strong> Description:</strong> {this.props.link.description} </div>
+          <div> <strong> URL: </strong> <a href={this.props.link.url}>{this.props.link.url}</a></div>
+          <div> <strong> Category: </strong> {this.props.link.category}  </div>
           <div className='f6 lh-copy gray'>{this.props.link.votes.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
         </div>
       </div>

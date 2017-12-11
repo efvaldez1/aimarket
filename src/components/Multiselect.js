@@ -29,7 +29,7 @@ const categoryToRender = this.props.allCategoryQuery.allCategories
 console.log(categoryToRender)
 return (
 	<div>
-	<label>Tags :</label>
+	<label>Multi Tags :</label>
   <Select
     name="form-field-name"
     value={this.state.selectedOptions}
