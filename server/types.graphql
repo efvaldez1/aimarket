@@ -1,6 +1,8 @@
-type Category @model {
+
+type Tag @model{
   id: ID! @isUnique
   name: String!
+  link: [Link!]! @relation(name: "LinkTags")
 }
 
 type Link @model {
@@ -44,8 +46,8 @@ type Vote @model {
   link: Link! @relation(name: "VotesOnLink")
 }
 
-type Tag @model{
+
+type Category @model {
   id: ID! @isUnique
   name: String!
-  link: [Link!]! @relation(name: "LinkTags")
 }

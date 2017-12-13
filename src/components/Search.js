@@ -1,17 +1,43 @@
 import React, { Component } from 'react'
-import { withApollo } from 'react-apollo'
+import { graphql,compose,withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import Link from './Link'
-
+import Select from 'react-select'
+import Multiselect from './Multiselect'
 class Search extends Component {
 
   state = {
     links: [],
-    searchText: ''
+    searchText: '',
+    tag:[]
+  }
+
+  handleMultiSelect = (tag) => {
+
+    this.setState({tag })
+    console.log('multi')
+    console.log(tag)
+
   }
 
   render() {
+    if (this.props.allTagQuery && this.props.allTagQuery.loading) {
+      return <div>Loading</div>
+    }
+
+    if (this.props.allTagQuery && this.props.allTagQuery.error) {
+      console.log(this.props.allTagQuery.error)
+      return <div>Error</div>
+    }
+    const tagToRender = this.props.allTagQuery.allTags
+    const options=[]
+    tagToRender.map((tag,id)=>
+    {
+      options.push({'value':tag.id,'label':tag.name})
+    }
+    )
     return (
+
       <div>
         <div>
           Search
@@ -19,6 +45,13 @@ class Search extends Component {
             type='text'
             onChange={(e) => this.setState({ searchText: e.target.value })}
           />
+          <Select
+            onChange={this.handleMultiSelect}
+            value={this.state.tag}
+            multi={true}
+        		options={options}
+          />
+
           <button
             onClick={() => this._executeSearch()}
           >
@@ -31,10 +64,16 @@ class Search extends Component {
   }
 
   _executeSearch = async () => {
+    const tagoptions =[]
+    this.state.tag.map((item)=>
+    {tagoptions.push({'id':item.value})}
+    )
+
+    console.log(tagoptions)
     const { searchText } = this.state
     const result = await this.props.client.query({
       query: ALL_LINKS_SEARCH_QUERY,
-      variables: { searchText }
+      variables: { searchText ,tagoptions}
     })
     const links = result.data.allLinks
     this.setState({ links })
@@ -42,19 +81,19 @@ class Search extends Component {
 }
 
 const ALL_LINKS_SEARCH_QUERY = gql`
-  query AllLinksSearchQuery($searchText: String!) {
+  query AllLinksSearchQuery($searchText: String!,$tagoptions:[ID!]!) {
     allLinks(filter: {
-      OR: [{
-        url_contains: $searchText
-      }, {
-        description_contains: $searchText
-      }]
+              tags_contains:$tagoptions
     }) {
       id
       url
       description
       createdAt
       postedBy {
+        id
+        name
+      }
+      tags{
         id
         name
       }
@@ -67,5 +106,22 @@ const ALL_LINKS_SEARCH_QUERY = gql`
     }
   }
 `
+const ALL_TAG_QUERY = gql `
+query AllTagQuery{
+  #graphql pluralises automatically
+  allTags{
+    id
+    name
 
-export default withApollo(Search)
+		link{       #all relationships must have subselection
+      id
+    }
+  }
+}
+`
+//export default withApollo(Search)
+export default compose(
+  graphql(ALL_TAG_QUERY, {name:'allTagQuery'}),
+  withApollo
+)(Search)
+// /https://stackoverflow.com/questions/41515226/graphql-filter-data-in-an-array
