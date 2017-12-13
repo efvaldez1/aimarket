@@ -28,6 +28,33 @@ mutation CreateLinkMutation {
       description
     }
   }
+mutation CreateLinkMutation
+{
+        createLink(
+            title: "title",
+            description: "description",
+            url: "url",
+            category:"category",
+            postedById: "cjb33kprdl4j10154x4ofdwbc",
+            tags: ["cjb3h055vshht0154hl5cxmo0"]
+        ) {
+            id
+            title
+            createdAt
+            url
+            description
+            category
+            postedBy {
+                id
+                name
+            }
+            tags
+            {
+                  id
+            }
+        }
+}
+
 
   mutation CreateCategoryMutation {
     createCategory(

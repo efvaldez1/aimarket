@@ -46,7 +46,6 @@ type Vote @model {
 
 type Tag @model{
   id: ID! @isUnique
-  name: String! @isUnique
-  description: String!
+  name: String!
   link: [Link!]! @relation(name: "LinkTags")
 }

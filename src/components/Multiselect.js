@@ -4,75 +4,77 @@ import Select from 'react-select'
 import gql from 'graphql-tag'
 
 class Multiselect extends React.Component {
-state = {
-    selectedOption: '',
+
+render(){
+
+  if (this.props.allTagQuery && this.props.allTagQuery.loading) {
+    return <div>Loading</div>
   }
-  handleChange = (selectedOptions) => {
 
-  this.setState({ selectedOptions });
-  selectedOptions.forEach( selectedOption =>
-    console.log( `Selected: ${selectedOption.label}` )
-  );
-}
+  if (this.props.allTagQuery && this.props.allTagQuery.error) {
+    console.log(this.props.allTagQuery.error)
+    return <div>Error</div>
+  }
 
-render() {
-	if (this.props.allTagsQuery && this.props.allTagsQuery.loading) {
-		return <div>Loading</div>
-	}
+  //const categoryToRender = [{name:'a'}]
+  //alert(this.props.allCategoryQuery.allCategories)
 
-	if (this.props.allCTagsQuery && this.props.allTagsQuery.error) {
-		return <div>Error</div>
-	}
+  const tagToRender = this.props.allTagQuery.allTags
+  // /const test={categoryToRender.map((category,id)=>({'value':{id},label:category}))}
 
-const options = []
-const categoryToRender = this.props.allCategoryQuery.allCategories
-console.log(categoryToRender)
-return (
-	<div>
-	<label>Multi Tags :</label>
-  <Select
-    name="form-field-name"
-    value={this.state.selectedOptions}
-    onChange={this.handleChange}
-    multi={true}
-		options={[
-          { value: '0', label: 'Algorithmic Trading' },
-          { value: '1', label: 'Market Analysis and Data Mining' },
-					{ value: '2', label: 'Portfolio Management' },
-					{ value: '3', label: 'Hospitals and medicine' },
-					{ value: '4', label: 'Human Resources & Recruiting' },
-					{ value: '5', label: 'Online and telephone customer service' },
-					{ value: '6', label: 'Transportation' },
-					{ value: '7', label: 'Natural Language Processing' },
-					{ value: '8', label: 'Computer Vision' },
-        ]}
-  />
+  //console.log(test)
+  const options=[]
+  const option={
+    value:'',
+    label:''
+  }
+  tagToRender.map((tag,id)=>
+  {
+    options.push({'value':tag.id,'label':tag.name})
+  }
+  )
 
-	</div>
-);
+  console.log(options)
+
+  return (
+    <div>
+  	<label>Multi Tags :</label>
+    <Select
+      name="form-field-name"
+
+      multi={true}
+  		options={options}
+    />
+
+  	</div>
+  )
 }
 }
 
-//const ALL_TAGS_QUERY = gql `
-//query AllTagsQuery{
-//  #graphql pluralises automatically
-//  allTags{
-//    id
-//    name
-//		link
-//  }
-//}
-//`
-
-//export default graphql(ALL_TAGS_QUERY,{name:'allTagsQuery'}) (Multiselect)
-const ALL_CATEGORY_QUERY = gql `
-query AllCategoryQuery{
+const ALL_TAG_QUERY = gql `
+query AllTagQuery{
   #graphql pluralises automatically
-  allCategories{
+  allTags{
     id
     name
+    description
+		link{       #all relationships must have subselection
+      id
+    }
   }
 }
 `
 
-export default graphql(ALL_CATEGORY_QUERY,{name:'allCategoryQuery'}) (Multiselect)
+//export default graphql(ALL_TAGS_QUERY,{name:'allTagsQuery'}) (Multiselect)
+//const ALL_CATEGORY_QUERY = gql `
+//query AllCategoryQuery{
+//  #graphql pluralises automatically
+//  allCategories{
+//    id
+//    name
+//  }
+//}
+//`
+
+//export default graphql(ALL_CATEGORY_QUERY,{name:'allCategoryQuery'}) (Multiselect)
+export default graphql(ALL_TAG_QUERY,{name:'allTagQuery'}) (Multiselect)

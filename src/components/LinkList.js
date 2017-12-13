@@ -101,6 +101,11 @@ class LinkList extends Component {
                 user {
                   id
                 }
+
+              }
+              tags {
+                id
+                name
               }
             }
           }
@@ -186,6 +191,10 @@ export const ALL_LINKS_QUERY = gql`
         user {
           id
         }
+      }
+      tags {
+        id
+        name
       }
     }
     _allLinksMeta {

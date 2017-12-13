@@ -22,5 +22,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "url": "https://github.com/efvaldez1/aimarket.git",
+    "type": "git"
+  },
+  "author": "Eduardo Valdez <eduardofvaldez1@gmail.com>",
+  "license": "MIT"
 }

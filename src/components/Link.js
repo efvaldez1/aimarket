@@ -19,6 +19,13 @@ class Link extends Component {
           <div><strong> Description:</strong> {this.props.link.description} </div>
           <div> <strong> URL: </strong> <a href={this.props.link.url}>{this.props.link.url}</a></div>
           <div> <strong> Category: </strong> {this.props.link.category}  </div>
+          <div> <strong> Tags: </strong>
+              {this.props.link.tags.map((tagItem)=>
+              (<li>{tagItem.name}</li>)
+              )
+              }
+          </div>
+
           <div className='f6 lh-copy gray'>{this.props.link.votes.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
         </div>
       </div>

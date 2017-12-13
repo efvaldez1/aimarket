@@ -5,30 +5,63 @@ import { GC_USER_ID, LINKS_PER_PAGE } from '../constants'
 import { ALL_LINKS_QUERY } from './LinkList'
 import CategoryList from './CategoryList'
 import Select from 'react-select'
-import Multiselect from './Multiselect'
+//import Multiselect from './Multiselect'
 
 class CreateLink extends Component {
   constructor() {
     super();
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleMultiSelect = this.handleMultiSelect.bind(this);
   }
 
   handleSelect(event){
-
     // /alert(this.refs.form.mySelect.value)
     //alert(event.target.value)
     //console.log(this.refs.form.mySelect.value)
     this.setState({ category: event.target.value})
   }
+  handleMultiSelect = (tag) => {
+    //console.log('You\'ve selected:', tag)
+    this.setState({tag })
+    var temp = tag.slice()
+    var tempoptions=[]
+    temp.map((item,id)=>
+    {tempoptions.push({'id':item.value,'name':item.name})}
+    )
+
+    //this.setState({tagsTemp: tempoptions})
+    console.log('multi')
+    console.log(tag)
+    //console.log(tagsTemp)
+  }
+
   state = {
     title: '',
     description: '',
     url: '',
-    category:'Publication'
+    category:'Publications',        // how to change to first element of API call
+    tag:'',
+    tagsTemp:''
   }
 
-  render() {
 
+
+  render() {
+    if (this.props.allTagQuery && this.props.allTagQuery.loading) {
+      return <div>Loading</div>
+    }
+
+    if (this.props.allTagQuery && this.props.allTagQuery.error) {
+      console.log(this.props.allTagQuery.error)
+      return <div>Error</div>
+    }
+    const tagToRender = this.props.allTagQuery.allTags
+    const options=[]
+    tagToRender.map((tag,id)=>
+    {
+      options.push({'value':tag.id,'label':tag.name})
+    }
+    )
     const combolist = [{id:1,name:'publication'},{id:2,name:'software'}]
 
     return (
@@ -41,21 +74,22 @@ class CreateLink extends Component {
           type='text'
           placeholder='Title of the Product'
         />
-          <textarea
+
+        <textarea
             className='mb2'
             value={this.state.description}
             onChange={(e) => this.setState({ description: e.target.value })}
-
             placeholder='A description for the product'
-          />
+        />
 
-          <input
+        <input
             className='mb2'
             value={this.state.url}
             onChange={(e) => this.setState({ url: e.target.value })}
             type='text'
             placeholder='The URL for the product'
-          />
+        />
+
         <div onChange={this.handleSelect}>
         Category :
         <CategoryList  name='mySelect'
@@ -63,8 +97,15 @@ class CreateLink extends Component {
         </div>
 
 
-        <Multiselect label="Multiselect" />
+          <label>Select as many</label>
 
+          <Select
+
+            onChange={this.handleMultiSelect}
+            value={this.state.tag}
+            multi={true}
+        		options={options}
+          />
 
         </div>
 
@@ -83,12 +124,23 @@ class CreateLink extends Component {
   _createLink = async () => {
     console.log(this.state.category)
     console.log(this.state.title)
+
+    const temp = this.state.tag.slice()
+    const tempoptions=[]
+    temp.map((item)=>
+    {tempoptions.push({'id':item.value})}
+    )
+    //this.setState({this.state.tagsTemp:tempoptions})     //must be {value: "" ,label:" "} for Select widget to not cause Error
+                                                          //must be {id:ID!} to be accepted by graphcool
     console.log('createLink')
+    console.log(tempoptions)
+    console.log(this.state.tag)
     const postedById = localStorage.getItem(GC_USER_ID)
     if (!postedById) {
       console.error('No user logged in')
       return
     }
+
     const { title,description, url,category } = this.state
       await this.props.createLinkMutation({
         variables: {
@@ -96,7 +148,8 @@ class CreateLink extends Component {
         description,
         url,
         category,
-        postedById
+        postedById,
+        tempoptions
       },
       update: (store, { data: { createLink } }) => {
         const first = LINKS_PER_PAGE
@@ -121,27 +174,16 @@ class CreateLink extends Component {
 
 }
 
-const ALL_CATEGORY_QUERY = gql `
-query AllCategoryQuery{
-  #graphql pluralises automatically
-  allCategories{
-    id
-    name
-  }
-}
-`
-
 //export default graphql(ALL_CATEGORY_QUERY,{name:'allCategoryQuery'}) (CategoryList)
-
 const CREATE_LINK_MUTATION = gql`
-    mutation CreateLinkMutation($title: String! ,$description: String!, $url: String!, $postedById: ID!, $category:String!) {
+    mutation CreateLinkMutation($title: String! ,$description: String!, $url: String!, $postedById: ID!, $category:String!,$tags:ID!) {
         createLink(
             title: $title,
             description: $description,
             url: $url,
             category:$category
             postedById: $postedById
-
+            tags: $tags
         ) {
             id
             title
@@ -153,12 +195,30 @@ const CREATE_LINK_MUTATION = gql`
                 id
                 name
             }
+            tags
+            {
+                  id
+            }
         }
     }
 `
+const ALL_TAG_QUERY = gql `
+query AllTagQuery{
+  #graphql pluralises automatically
+  allTags{
+    id
+    name
+
+		link{       #all relationships must have subselection
+      id
+    }
+  }
+}
+`
 
 //export default graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })(CreateLink)
+//export default graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })(CreateLink)
 export default compose(
-  graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' }),
-  graphql(ALL_CATEGORY_QUERY,{name:'allCategoryQuery'})
+  graphql(ALL_TAG_QUERY, {name:'allTagQuery'}),
+  graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })
 )(CreateLink)

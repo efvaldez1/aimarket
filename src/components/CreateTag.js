@@ -20,13 +20,6 @@ class CreateTag extends Component {
             placeholder='Name for the Tag'
           />
 
-          <input
-            className='mb2'
-            value={this.state.description}
-            onChange={(e) => this.setState({ description: e.target.value })}
-            type='text'
-            placeholder='Description for the Tag'
-          />
 
         </div>
         <button
@@ -39,11 +32,10 @@ class CreateTag extends Component {
   }
 
   _createTag = async () => {
-  const { name , description } = this.state
+  const { name } = this.state
   await this.props.createTagMutation({
     variables: {
-      name,
-      description
+      name
     }
   })
   this.props.history.push('/')
@@ -51,14 +43,12 @@ class CreateTag extends Component {
 
 }
 const CREATE_TAG_MUTATION = gql`
-mutation CreateTagMutation($name:String!,$description:String!){
+mutation CreateTagMutation($name:String!){
   createTag(
-    name:$name,
-    description: $description
+    name:$name
   ){
     id,
-    name,
-    description
+    name
   }
 }
 `
