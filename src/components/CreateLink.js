@@ -128,13 +128,12 @@ class CreateLink extends Component {
     const temp = this.state.tag.slice()
     const tempoptions=[]
     temp.map((item)=>
-    {tempoptions.push({'id':item.value})}
+    {tempoptions.push(item.value)}
     )
     //this.setState({this.state.tagsTemp:tempoptions})     //must be {value: "" ,label:" "} for Select widget to not cause Error
                                                           //must be {id:ID!} to be accepted by graphcool
     console.log('createLink')
     console.log(tempoptions)
-    console.log(this.state.tag)
     const postedById = localStorage.getItem(GC_USER_ID)
     if (!postedById) {
       console.error('No user logged in')
@@ -176,14 +175,14 @@ class CreateLink extends Component {
 
 //export default graphql(ALL_CATEGORY_QUERY,{name:'allCategoryQuery'}) (CategoryList)
 const CREATE_LINK_MUTATION = gql`
-    mutation CreateLinkMutation($title: String! ,$description: String!, $url: String!, $postedById: ID!, $category:String!,$tags:ID!) {
+    mutation CreateLinkAnConnectTags($title: String! ,$description: String!, $url: String!, $postedById: ID!, $category:String!,$tags:[ID!]) {
         createLink(
             title: $title,
             description: $description,
             url: $url,
-            category:$category
-            postedById: $postedById
-            tags: $tags
+            category:$category,
+            postedById: $postedById,
+            tagsIds: $tags
         ) {
             id
             title
@@ -198,6 +197,10 @@ const CREATE_LINK_MUTATION = gql`
             tags
             {
                   id
+                  name
+            }
+            votes{
+              id
             }
         }
     }

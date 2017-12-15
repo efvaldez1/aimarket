@@ -4,20 +4,29 @@ import gql from 'graphql-tag'
 import Link from './Link'
 import Select from 'react-select'
 import Multiselect from './Multiselect'
+import CategoryList from './CategoryList'
 class Search extends Component {
+  constructor() {
+    super();
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleMultiSelect = this.handleMultiSelect.bind(this);
+  }
 
   state = {
     links: [],
     searchText: '',
+    categoryText:'',
     tag:[]
   }
 
-  handleMultiSelect = (tag) => {
+  handleSelect(event){
+    this.setState({ categoryText: event.target.value})
+  }
 
+  handleMultiSelect = (tag) => {
     this.setState({tag })
     console.log('multi')
     console.log(tag)
-
   }
 
   render() {
@@ -40,12 +49,20 @@ class Search extends Component {
 
       <div>
         <div>
-          Search
+          <label><strong>Search</strong></label>
+
           <input
             type='text'
+            placeholder="Title Or Description "
+
             onChange={(e) => this.setState({ searchText: e.target.value })}
           />
+          <div onChange={this.handleSelect}>
+            <div> <label>Category :</label></div><CategoryList  name='mySelect' />
+          </div>
+          //tags not functional since it can only search using 1 tag not list of tags
           <Select
+            placeholder="Tags"
             onChange={this.handleMultiSelect}
             value={this.state.tag}
             multi={true}
@@ -66,14 +83,15 @@ class Search extends Component {
   _executeSearch = async () => {
     const tagoptions =[]
     this.state.tag.map((item)=>
-    {tagoptions.push({'id':item.value})}
+    {tagoptions.push({'id':item.name})}
     )
 
     console.log(tagoptions)
-    const { searchText } = this.state
+
+    const { searchText, categoryText } = this.state
     const result = await this.props.client.query({
       query: ALL_LINKS_SEARCH_QUERY,
-      variables: { searchText ,tagoptions}
+      variables: { searchText ,categoryText}
     })
     const links = result.data.allLinks
     this.setState({ links })
@@ -81,13 +99,26 @@ class Search extends Component {
 }
 
 const ALL_LINKS_SEARCH_QUERY = gql`
-  query AllLinksSearchQuery($searchText: String!,$tagoptions:[ID!]!) {
+  query AllLinksSearchQuery($searchText:String!, $categoryText:String!) {
     allLinks(filter: {
-              tags_contains:$tagoptions
+      AND:
+      [
+            {category:$categoryText},
+            {
+              OR: [{
+                  url_contains: $searchText
+                }, {
+                  description_contains: $searchText
+                }]
+              }
+      ]
+
     }) {
       id
+      title
       url
       description
+      category
       createdAt
       postedBy {
         id

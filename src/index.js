@@ -14,7 +14,7 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 
 //https://api.graph.cool/simple/v1/cjb1wjnsz0cgm01917n8223tb
-const serviceId = process.env.SERVICE_ID || 'cjb1wjnsz0cgm01917n8223tb';
+const serviceId = process.env.SERVICE_ID || 'cjb6d8u2l18ub0159j51dtylj';
 
 const httpLink = new HttpLink({ uri: `https://api.graph.cool/simple/v1/${serviceId}` })
 

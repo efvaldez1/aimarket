@@ -18,6 +18,7 @@ class LinkList extends Component {
     }
 
     if (this.props.allLinksQuery && this.props.allLinksQuery.error) {
+      console.log(this.props.allLinksQuery.error)
       return <div>Error</div>
     }
 
@@ -195,6 +196,10 @@ export const ALL_LINKS_QUERY = gql`
       tags {
         id
         name
+        link
+        {
+          id
+        }
       }
     }
     _allLinksMeta {

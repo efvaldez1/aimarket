@@ -21,8 +21,8 @@ class CategoryList extends Component {
     return (
       <div>
       <select name={this.props.name}>
-      {categoryToRender.map((category,id)=>
-      (<option key={id} value={category.name}>
+      {categoryToRender.map((category)=>
+      (<option key={category.id} value={category.name}>
       {category.name}
       </option>))
       }

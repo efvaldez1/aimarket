@@ -5,7 +5,6 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 class Link extends Component {
-
   render() {
     const userId = localStorage.getItem(GC_USER_ID)
     return (
@@ -22,10 +21,19 @@ class Link extends Component {
           <div> <strong> Tags: </strong>
               {this.props.link.tags.map((tagItem)=>
               (<li>{tagItem.name}</li>)
+
               )
               }
           </div>
+          <div> <strong> No. Of Offers: </strong> {this.props.link.offers.length}  </div>
+          <div> <strong> Offers: </strong>
+              {this.props.link.offers.map((offerItem)=>
+              (<li>{offerItem.amount}</li>
 
+              )
+              )
+              }
+          </div>
           <div className='f6 lh-copy gray'>{this.props.link.votes.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
         </div>
       </div>

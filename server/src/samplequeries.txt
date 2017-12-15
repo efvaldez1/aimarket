@@ -65,3 +65,107 @@ mutation CreateLinkMutation
 			name
     }
   }
+
+  //filter
+  https://blog.graph.cool/advanced-graphql-features-of-the-graphcool-api-5b8db3b0a71
+
+  query AllLinksSearchQuery {
+    allLinks(filter: {
+              category:"Software"
+    }) {
+      id
+      url
+      description
+      createdAt
+      postedBy {
+        id
+        name
+      }
+      tags{
+        id
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
+    }
+  }
+
+  query AllLinksSearchQuery {
+    allLinks(filter: {
+              category_in:["Software","Publication"]
+    }) {
+      id
+      url
+      description
+      createdAt
+      postedBy {
+        id
+        name
+      }
+      tags{
+        id
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
+    }
+  }
+
+
+  query AllLinksSearchQuery {
+      allLinks(filter: {
+                tags_every:{id:"cjb4gepns2kyw01545jsftayl"} #learn how to input list of tags
+      }) {
+        id
+        url
+        description
+        createdAt
+        postedBy {
+          id
+          name
+        }
+        tags{
+          id
+        }
+        votes {
+          id
+          user {
+            id
+          }
+        }
+      }
+    }
+
+
+    mutation CreateLinkMutation($title: String! ,$description: String!, $url: String!, $postedById: ID!, $category:String!,$tags:[ID!]) {
+        createLink(
+            title: $title,
+            description: $description,
+            url: $url,
+            category:$category,
+            postedById: $postedById,
+            tagsIds: $tags
+        ) {
+            id
+            title
+            createdAt
+            url
+            description
+            category
+            postedBy {
+                id
+                name
+            }
+            tags
+            {
+                  id
+                  name
+            }
+        }
+    }   

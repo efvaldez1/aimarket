@@ -21,9 +21,9 @@ type Link @model {
 
 type Offer @model {
   id: ID! @isUnique
-  amount: Float
+  amount: String!
   offerdescription: String!
-  link: Link @relation(name: "LinksOffer")
+  link: Link! @relation(name: "LinksOffer")
   offerBy: User @relation(name: "UserOffers")
   addedOn: DateTime!
 }

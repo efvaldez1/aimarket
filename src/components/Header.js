@@ -21,6 +21,8 @@ class Header extends Component {
           <div className='ml1'>|</div>
           <Link to='/createcategory' className='ml1 no-underline black'>create category</Link>
           <div className='ml1'>|</div>
+          <Link to='/createoffer' className='ml1 no-underline black'>create offer</Link>
+          <div className='ml1'>|</div>
           <Link to='/createtag' className='ml1 no-underline black'>create tag </Link>
           {userId &&
           <div className='flex'>
