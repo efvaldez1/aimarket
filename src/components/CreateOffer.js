@@ -7,8 +7,17 @@ import NumericInput from 'react-numeric-input'
 class CreateOffer extends Component {
   constructor(props) {
     super(props);
-
   }
+  handleSelect(event){
+    console.log("product chosen")
+    // /alert(this.refs.form.mySelect.value)
+    //alert(event.target.value)
+    //console.log(this.refs.form.mySelect.value)
+    this.setState({ link: event.target.value})
+
+    console.log(this.state.link)
+  }
+
   state = {
     amount:'',
     offerdescription:'',
@@ -16,13 +25,26 @@ class CreateOffer extends Component {
     link:'',
     addedOn:''
   }
+
   handleChange(evt) {
     const amount = (evt.target.validity.valid) ? evt.target.value : amount;
     console.log(typeof(amount))
     //this.setState({ amount:amount });
   }
   render() {
+    const allLinks=this.props.allLinksQuery.allLinks
+    console.log('All Links')
+    console.log(allLinks)
+    if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {
+      return <div>Loading</div>
+    }
+
+    if (this.props.allLinksQuery && this.props.allLinksQuery.error) {
+      console.log(this.props.allLinksQuery.error)
+      return <div>Error</div>
+    }
     return (
+
       <div>
         <div className='flex flex-column mt3'>
         <input
@@ -40,7 +62,16 @@ class CreateOffer extends Component {
             type='text'
             placeholder='offer'
           />
-
+          <a>Product: </a>
+          <div onChange={this.handleSelect}>
+          <select >
+          {allLinks.map((link)=>
+          (<option key={link.id} value={link.title}>
+          {link.title}
+          </option>))
+          }
+          </select>
+          </div>
           <input
             className='mb2'
             value={this.state.link}
@@ -73,7 +104,7 @@ class CreateOffer extends Component {
       userId
     }
   })
-
+  this.props.history.push(`/new/1`)
   }
 
 }

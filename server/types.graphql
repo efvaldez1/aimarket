@@ -26,6 +26,15 @@ type Offer @model {
   link: Link! @relation(name: "LinksOffer")
   offerBy: User @relation(name: "UserOffers")
   addedOn: DateTime!
+  comments: [Comment!]! @relation(name: "OfferComments")
+}
+
+type Comment @model {
+  id: ID! @isUnique
+  content: String!
+  offer: Offer! @relation(name: "OfferComments")
+  author: User @relation(name: "UserComments")
+  addedOn: DateTime!
 }
 
 type User @model {
@@ -38,6 +47,7 @@ type User @model {
   offers: [Offer!]! @relation(name: "UserOffers")
   links: [Link!]! @relation(name: "UsersLinks")
   votes: [Vote!]! @relation(name: "UsersVotes")
+  comments: [Comment!]! @relation(name: "UserComments")
 }
 
 type Vote @model {

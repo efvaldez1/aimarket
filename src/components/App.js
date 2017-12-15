@@ -8,6 +8,7 @@ import CategoryList from './CategoryList'
 import CreateCategory from './CreateCategory'
 import CreateTag from './CreateTag'
 import CreateOffer from './CreateOffer'
+import ProductPage from './ProductPage'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 class App extends Component {
@@ -25,6 +26,7 @@ class App extends Component {
             <Route exact path='/top' component={LinkList} />
             <Route exact path = '/category' component={CategoryList} />
             <Route exact path='/createoffer' component={CreateOffer}/>
+            <Route path='/product/:id' component={ProductPage}/>
             <Route exact path='/createtag' component={CreateTag}/>
             <Route exact path='/new/:page' component={LinkList} />
           </Switch>

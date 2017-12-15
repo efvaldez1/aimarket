@@ -193,6 +193,15 @@ export const ALL_LINKS_QUERY = gql`
           id
         }
       }
+      offers{
+        id
+        amount
+        offerdescription
+        offerBy{
+          id
+          name
+        }
+      }
       tags {
         id
         name

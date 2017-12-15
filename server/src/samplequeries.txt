@@ -168,4 +168,22 @@ mutation CreateLinkMutation
                   name
             }
         }
-    }   
+    }
+
+
+    mutation {
+      addToLinkTags(
+        tagsTagId: "cjb65aa0t7ycv0172t1f30ngs"
+        linkLinkId: "cjb67j4sq96710172fub0ruv1"
+      ) {
+        tagsTag {
+          id
+          name
+        }
+        linkLink {
+          id
+        	title
+          description
+        }
+      }
+    }
