@@ -26,7 +26,7 @@ class App extends Component {
             <Route exact path='/top' component={LinkList} />
             <Route exact path = '/category' component={CategoryList} />
             <Route exact path='/createoffer' component={CreateOffer}/>
-            <Route path='/product/:id' component={ProductPage}/>
+            <Route exact path='/product/:id' component={ProductPage}/>
             <Route exact path='/createtag' component={CreateTag}/>
             <Route exact path='/new/:page' component={LinkList} />
           </Switch>

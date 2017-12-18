@@ -1,4 +1,3 @@
-
 type Tag @model{
   id: ID! @isUnique
   name: String!

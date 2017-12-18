@@ -52,7 +52,7 @@ class CreateOffer extends Component {
           value={this.state.amount}
           onChange={(e) => this.setState({ amount: e.target.value })}
           type='text'
-          placeholder='offer'
+          placeholder='Amount'
         />
 
           <input
@@ -60,7 +60,7 @@ class CreateOffer extends Component {
             value={this.state.offerdescription}
             onChange={(e) => this.setState({ offerdescription: e.target.value })}
             type='text'
-            placeholder='offer'
+            placeholder='Message'
           />
           <a>Product: </a>
           <div onChange={this.handleSelect}>

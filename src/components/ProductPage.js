@@ -4,6 +4,8 @@ import { timeDifferenceForDate } from '../utils'
 import { graphql,compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import CreateComment from './CreateComment'
+import CreateOffer from './CreateOffer'
+
 class ProductPage extends Component {
 
   render() {
@@ -20,14 +22,6 @@ class ProductPage extends Component {
     const result = this.props.allLinksQuery.allLinks
     console.log(result)
     var link ={}
-    //result.map((category)=>
-    //(
-    //    if (category.id===id){
-    //      console.log(category.title)
-    //    }
-    //))
-    //var link = this.result.find()
-
     const len = result.length;
     for (var i = 0; i < len; i++) {
       if(result[i].id===id)
@@ -110,7 +104,6 @@ class ProductPage extends Component {
 }
 console.log(this.props)
 //const Id = this.props.match.params.id
-
 //const FIND_LINK_QUERY = gql`
 //query findLink($id: ID!){
 //  Link(id: $id){

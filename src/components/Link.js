@@ -3,10 +3,16 @@ import { GC_USER_ID } from '../constants'
 import { timeDifferenceForDate } from '../utils'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
 
-class Link extends Component {
+
+
+class Product extends Component {
   render() {
     const userId = localStorage.getItem(GC_USER_ID)
+
     return (
       <div className='flex mt2 items-start'>
         <div className='flex items-center'>
@@ -15,7 +21,8 @@ class Link extends Component {
         </div>
         <div className='ml1'>
           <div> <strong>ID:</strong> {this.props.link.id} </div>
-          <div> <strong>Title:</strong> {this.props.link.title} </div>
+
+          <Link to={'/product/'+this.props.link.id} >Title: {this.props.link.title}</Link>
           <div><strong> Description:</strong> {this.props.link.description} </div>
           <div> <strong> URL: </strong> <a href={this.props.link.url}>{this.props.link.url}</a></div>
           <div> <strong> Category: </strong> {this.props.link.category}  </div>
@@ -43,6 +50,12 @@ class Link extends Component {
       </div>
     )
   }
+  //_goToProductPage = async() =>{
+  //  console.log("id")
+  //  console.log(this.props.link.id)
+  //  https://stackoverflow.com/questions/41341486/avoid-concat-url-in-react-redux-router
+  //  this.props.history.push(`/product/`+this.props.link.id)
+  //}
 
   _voteForLink = async () => {
     const userId = localStorage.getItem(GC_USER_ID)
@@ -85,6 +98,5 @@ const CREATE_VOTE_MUTATION = gql`
   }
 `
 
-export default graphql(CREATE_VOTE_MUTATION, {
-  name: 'createVoteMutation'
-})(Link)
+export default graphql(CREATE_VOTE_MUTATION, {name: 'createVoteMutation'})(Product)
+//export default withRouter(Link)

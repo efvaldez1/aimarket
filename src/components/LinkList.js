@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Link from './Link'
+import Product from './Link'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { LINKS_PER_PAGE } from '../constants'
@@ -30,7 +30,7 @@ class LinkList extends Component {
       <div>
         <div>
           {linksToRender.map((link, index) => (
-            <Link key={link.id} index={page ? (page - 1) * LINKS_PER_PAGE + index : index} updateStoreAfterVote={this._updateCacheAfterVote} link={link}/>
+            <Product key={link.id} index={page ? (page - 1) * LINKS_PER_PAGE + index : index} updateStoreAfterVote={this._updateCacheAfterVote} link={link}/>
           ))}
         </div>
         {isNewPage &&
