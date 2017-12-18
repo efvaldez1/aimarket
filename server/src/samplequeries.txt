@@ -36,7 +36,7 @@ mutation CreateLinkMutation
             url: "url",
             category:"category",
             postedById: "cjb33kprdl4j10154x4ofdwbc",
-            tags: ["cjb3h055vshht0154hl5cxmo0"]
+            tagsIds: ["cjb3h055vshht0154hl5cxmo0"]
         ) {
             id
             title

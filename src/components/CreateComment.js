@@ -2,11 +2,16 @@ import React, { Component } from 'react'
 import {graphql} from 'react-apollo'
 import gql from 'graphql-tag'
 import { GC_USER_ID } from '../constants'
+import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
+
+
 class CreateComment extends Component {
 
   state = {
     content: ''
   }
+
   render() {
     console.log("comment section")
     console.log(this.props)
@@ -34,15 +39,15 @@ class CreateComment extends Component {
   _createComment = async () => {
 
   const authorId = localStorage.getItem(GC_USER_ID)
-  const addedOn="2015-11-22T13:57:31.123Z"
   const { content } = this.state
   const offerId= this.props.offerId
-  console.log('offerID')
+  console.log('CreateComment')
   console.log(offerId)
+  console.log(content)
+  console.log(authorId)
   await this.props.createCommentMutation({
     variables: {
       content,
-      addedOn,
       offerId,
       authorId
     }
@@ -51,7 +56,7 @@ class CreateComment extends Component {
   //const url='/product/'+this.props.productId
   //const newurl="`"+url+"`"
   //console.log(this.props)
-  //this.props.history.push(this.newurl)
+  this.props.history.push(`/top`)
 }
 
 
@@ -63,7 +68,6 @@ mutation CreateCommentMutation($content:String!,$authorId:ID!,$offerId:ID!){
     content:$content
     authorId: $authorId
     offerId:$offerId
-    addedOn:"2015-11-22T13:57:31.123Z"
   ){
     id
     content
@@ -78,7 +82,7 @@ mutation CreateCommentMutation($content:String!,$authorId:ID!,$offerId:ID!){
       amount
       offerdescription
     }
-    addedOn
+    createdAt
   }
 }
 `

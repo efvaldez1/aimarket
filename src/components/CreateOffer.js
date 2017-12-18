@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {graphql,compose} from 'react-apollo'
 import gql from 'graphql-tag'
 import { GC_USER_ID } from '../constants'
-import NumericInput from 'react-numeric-input'
+import { withRouter } from 'react-router'
 
 class CreateOffer extends Component {
   constructor(props) {
@@ -10,11 +10,7 @@ class CreateOffer extends Component {
   }
   handleSelect(event){
     console.log("product chosen")
-    // /alert(this.refs.form.mySelect.value)
-    //alert(event.target.value)
-    //console.log(this.refs.form.mySelect.value)
     this.setState({ link: event.target.value})
-
     console.log(this.state.link)
   }
 
@@ -22,8 +18,7 @@ class CreateOffer extends Component {
     amount:'',
     offerdescription:'',
     offerBy:'',
-    link:'',
-    addedOn:''
+
   }
 
   handleChange(evt) {
@@ -33,8 +28,9 @@ class CreateOffer extends Component {
   }
   render() {
     const allLinks=this.props.allLinksQuery.allLinks
-    console.log('All Links')
-    console.log(allLinks)
+    console.log("CreateOfferJS")
+    console.log(this.props.linkId)
+
     if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {
       return <div>Loading</div>
     }
@@ -46,6 +42,8 @@ class CreateOffer extends Component {
     return (
 
       <div>
+        <br/>
+        <label><strong> Create Offer</strong></label>
         <div className='flex flex-column mt3'>
         <input
           className='mb2'
@@ -62,31 +60,12 @@ class CreateOffer extends Component {
             type='text'
             placeholder='Message'
           />
-          <a>Product: </a>
-          <div onChange={this.handleSelect}>
-          <select >
-          {allLinks.map((link)=>
-          (<option key={link.id} value={link.title}>
-          {link.title}
-          </option>))
-          }
-          </select>
-          </div>
-          <input
-            className='mb2'
-            value={this.state.link}
-            onChange={(e) => this.setState({ link: e.target.value })}
-            type='text'
-            placeholder='link'
-          />
-
-
 
         </div>
         <button
           onClick={() => this._createOffer()}
         >
-          Submit
+          Submit Offer
         </button>
       </div>
     )
@@ -95,7 +74,8 @@ class CreateOffer extends Component {
   _createOffer = async () => {
   const userId = localStorage.getItem(GC_USER_ID)
   console.log(userId)
-  const {amount,offerdescription,link } = this.state
+  const link = this.props.linkId
+  const {amount,offerdescription } = this.state
   await this.props.createOfferMutation({
     variables: {
       amount,
@@ -104,6 +84,7 @@ class CreateOffer extends Component {
       userId
     }
   })
+  //do I still need to push() if I make subscription work?
   this.props.history.push(`/new/1`)
   }
 
@@ -150,7 +131,7 @@ mutation CreateOfferMutation($amount:String!,$offerdescription:String!,$link:ID!
     offerdescription:$offerdescription
     linkId:$link
     offerById:$userId
-    addedOn:"2015-11-22T13:57:31.123Z"
+
   ){
     id
     amount
@@ -163,7 +144,7 @@ mutation CreateOfferMutation($amount:String!,$offerdescription:String!,$link:ID!
     {
       id
     }
-    addedOn
+    createdAt
   }
 }
 `

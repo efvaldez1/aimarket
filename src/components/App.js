@@ -6,9 +6,11 @@ import Login from './Login'
 import Search from './Search'
 import CategoryList from './CategoryList'
 import CreateCategory from './CreateCategory'
+import CreateComment from './CreateComment'
 import CreateTag from './CreateTag'
 import CreateOffer from './CreateOffer'
 import ProductPage from './ProductPage'
+import Profile from './Profile'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 class App extends Component {
@@ -21,6 +23,7 @@ class App extends Component {
             <Route exact path='/' render={() => <Redirect to='/new/1' />} />
             <Route exact path='/create' component={CreateLink}/>
             <Route exact path='/createcategory' component={CreateCategory}/>
+            <Route exact path='/createcomment' component={CreateComment}/>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/search' component={Search}/>
             <Route exact path='/top' component={LinkList} />
@@ -29,6 +32,7 @@ class App extends Component {
             <Route exact path='/product/:id' component={ProductPage}/>
             <Route exact path='/createtag' component={CreateTag}/>
             <Route exact path='/new/:page' component={LinkList} />
+            <Route exact path='/profile' component={Profile} />
           </Switch>
         </div>
       </div>
@@ -37,4 +41,4 @@ class App extends Component {
 
 }
 
-export default App
+export default (App)

@@ -23,6 +23,8 @@ class Header extends Component {
           <div className='ml1'>|</div>
           <Link to='/createoffer' className='ml1 no-underline black'>create offer</Link>
           <div className='ml1'>|</div>
+          <Link to='/createcomment' className='ml1 no-underline black'>create offer</Link>
+          <div className='ml1'>|</div>
           <Link to='/createtag' className='ml1 no-underline black'>create tag </Link>
           {userId &&
           <div className='flex'>
@@ -32,7 +34,11 @@ class Header extends Component {
           }
         </div>
         <div className='flex flex-fixed'>
+          <Link to='/profile' className='ml1 no-underline black'>profile</Link>
+          <div className='ml1'>|</div>
           {userId ?
+
+
             <div className='ml1 pointer black' onClick={() => {
               localStorage.removeItem(GC_USER_ID)
               localStorage.removeItem(GC_AUTH_TOKEN)

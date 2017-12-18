@@ -57,17 +57,12 @@ class Search extends Component {
 
             onChange={(e) => this.setState({ searchText: e.target.value })}
           />
+
           <div onChange={this.handleSelect}>
             <div> <label>Category :</label></div><CategoryList  name='mySelect' />
           </div>
-          //tags not functional since it can only search using 1 tag not list of tags
-          <Select
-            placeholder="Tags"
-            onChange={this.handleMultiSelect}
-            value={this.state.tag}
-            multi={true}
-        		options={options}
-          />
+
+
 
           <button
             onClick={() => this._executeSearch()}
@@ -81,19 +76,26 @@ class Search extends Component {
   }
 
   _executeSearch = async () => {
-    const tagoptions =[]
+    const tagIds=[]
     this.state.tag.map((item)=>
-    {tagoptions.push({'id':item.name})}
+    {tagIds.push(item.value)
+      console.log(item)
+    }
     )
 
-    console.log(tagoptions)
+    console.log('tag options')
+    console.log(tagIds)
 
     const { searchText, categoryText } = this.state
+    console.log(searchText)
+    console.log(categoryText)
     const result = await this.props.client.query({
       query: ALL_LINKS_SEARCH_QUERY,
       variables: { searchText ,categoryText}
     })
     const links = result.data.allLinks
+    console.log('links')
+    console.log(links)
     this.setState({ links })
   }
 }
@@ -101,16 +103,17 @@ class Search extends Component {
 const ALL_LINKS_SEARCH_QUERY = gql`
   query AllLinksSearchQuery($searchText:String!, $categoryText:String!) {
     allLinks(filter: {
-      AND:
+      OR:
       [
+
             {category:$categoryText},
             {
               OR: [{
-                  url_contains: $searchText
+                  title_contains: $searchText
                 }, {
                   description_contains: $searchText
                 }]
-              }
+            }
       ]
 
     }) {
@@ -127,6 +130,10 @@ const ALL_LINKS_SEARCH_QUERY = gql`
       tags{
         id
         name
+      }
+      offers{
+        id
+        amount
       }
       votes {
         id
@@ -156,3 +163,13 @@ export default compose(
   withApollo
 )(Search)
 // /https://stackoverflow.com/questions/41515226/graphql-filter-data-in-an-array
+
+
+//          (Tags can only search using 1 tag not list of tags)
+//          <Select
+//            placeholder="Tags"
+//            onChange={this.handleMultiSelect}
+//            value={this.state.tag}
+//            multi={true}
+//        		options={options}
+//          />

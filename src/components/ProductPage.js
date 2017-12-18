@@ -7,7 +7,10 @@ import CreateComment from './CreateComment'
 import CreateOffer from './CreateOffer'
 
 class ProductPage extends Component {
-
+  componentDidMount() {
+    this._subscribeToNewOffers()
+    this._subscribeToNewComments()
+  }
   render() {
     if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {
       return <div>Loading</div>
@@ -47,41 +50,40 @@ class ProductPage extends Component {
         <div> <strong> Category: </strong> {link.category}  </div>
         <div> <strong> Tags: </strong>
             {link.tags.map((tagItem)=>
-            (<li>{tagItem.name}</li>)
+            (<a>{tagItem.name} </a>)
             )
             }
         </div>
-        <div> <strong> No. Of Offers: </strong> {link.offers.length}  </div>
+
+        <CreateOffer linkId={link.id}/>
         <div> <strong> Offers: </strong>
             {link.offers.map((offerItem)=>
             (
               <div>
-
               <a>Offer By: {offerItem.offerBy.name}</a><br/>
-              <a> amount: {offerItem.amount}</a><br/>
-              <a> description: {offerItem.offerdescription}</a><br/>
+              <a>Amount: {offerItem.amount}</a><br/>
+              <a>Description: {offerItem.offerdescription}</a><br/>
+              <a>Created At: {timeDifferenceForDate(offerItem.createdAt)}</a><br/>
               <br/>
-              <strong>Comments: </strong>
+
               {offerItem.comments.map((commentItem)=>
                 (
-
-                  <p>
-                  Comment By:{commentItem.author.name}<br/>
-                  Comment Content: {commentItem.content}<br/>
-                  Time: {commentItem.addedOn }<br/>
-                  </p>
+                  <div className='indent'>
+                  <br/>
+                  <a> {commentItem.content}</a>
+                  <a> By:{commentItem.author.name} {timeDifferenceForDate(commentItem.createdAt)}</a>
+                  <br/>
+                  </div>
 
                 )
               )
               }
               <CreateComment offerId={offerItem.id} productId={link.id}/>
-              <textarea placeholder="Enter Comment (not yet funcitonal)"></textarea>
               <br/>
               <br/>
 
               </div>
             )
-
             )
             //comment form
 
@@ -93,12 +95,13 @@ class ProductPage extends Component {
     )
   }
 
-  _getLinkToRender = (id) => {
-    console.log(id)
-    //const rankedLinks = this.props.allLinksQuery.allLinks.slice()
-    //rankedLinks.sort((l1, l2) => l2.votes.length - l1.votes.length)
-    //return rankedLinks
-    return {"title":"hey"}
+  _subscribeToNewOffers= () => {
+      //implement this
+  }
+
+  _subscribeToNewComments = () => {
+    // implement this
+
   }
 
 }
@@ -189,4 +192,4 @@ export default compose(
   graphql(ALL_LINKS_QUERY, {name: 'allLinksQuery'}),
   graphql(CREATE_VOTE_MUTATION, {name: 'createVoteMutation'}),
   //graphql(FIND_LINK_QUERY, {name: 'findLinkQuery'})
-)(ProductPage)
+) (ProductPage)

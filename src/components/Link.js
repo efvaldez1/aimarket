@@ -12,7 +12,8 @@ import { Link } from 'react-router-dom'
 class Product extends Component {
   render() {
     const userId = localStorage.getItem(GC_USER_ID)
-
+    console.log('key')
+    console.log(this.props.key)
     return (
       <div className='flex mt2 items-start'>
         <div className='flex items-center'>

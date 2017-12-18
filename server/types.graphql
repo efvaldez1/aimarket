@@ -24,7 +24,8 @@ type Offer @model {
   offerdescription: String!
   link: Link! @relation(name: "LinksOffer")
   offerBy: User @relation(name: "UserOffers")
-  addedOn: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   comments: [Comment!]! @relation(name: "OfferComments")
 }
 
@@ -33,7 +34,8 @@ type Comment @model {
   content: String!
   offer: Offer! @relation(name: "OfferComments")
   author: User @relation(name: "UserComments")
-  addedOn: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type User @model {
