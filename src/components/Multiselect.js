@@ -28,10 +28,11 @@ render(){
     value:'',
     label:''
   }
+
   tagToRender.map((tag,id)=>
-  {
-    options.push({'value':tag.id,'label':tag.name})
-  }
+    {
+      options.push({'value':tag.id,'label':tag.name})
+    }
   )
 
   console.log(options)

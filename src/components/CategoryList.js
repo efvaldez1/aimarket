@@ -10,20 +10,21 @@ import MenuItem from 'material-ui/MenuItem';
 
 class CategoryList extends Component {
 
+  state = {
+    category:"Publication",
+  }
 
   handleChange = (event, index, category) => {
 
-  this.setState({category:category.name});
+  this.setState({category:event.target.innerText});
   console.log("event")
   console.log(event.target)
   console.log(this.state.category)
   }
   render(){
-
     if (this.props.allCategoryQuery && this.props.allCategoryQuery.loading) {
       return <div>Loading</div>
     }
-
     if (this.props.allCategoryQuery && this.props.allCategoryQuery.error) {
       return <div>Error</div>
       {categoryToRender.map((category)=>
@@ -37,11 +38,11 @@ class CategoryList extends Component {
       <div>
       <SelectField name={this.props.name}
        floatingLabelText="Choose Category"
-
-
+       value={this.state.category}
+       onChange={this.handleChange}
       >
       {categoryToRender.map((category)=>
-      (<MenuItem id={category.id} value={category.name} primaryText={category.name} />))
+      (<MenuItem value={category.name} primaryText={category.name} />))
       }
       </SelectField>
 

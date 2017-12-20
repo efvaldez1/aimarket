@@ -10,7 +10,7 @@ class ProductPage extends Component {
   componentDidMount() {
     this._subscribeToNewOffers()
     this._subscribeToNewComments()
-    this._subscribeToLinkUpdate()
+  //  this._subscribeToLinkUpdate()
   }
   render() {
     if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {

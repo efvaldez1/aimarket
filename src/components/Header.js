@@ -26,12 +26,17 @@ class Header extends Component {
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       >
-        <MenuItem primaryText="New" />
-        <MenuItem primaryText="Top" />
-        <MenuItem primaryText="Search" />
-        <MenuItem primaryText="Categories" />
-        <MenuItem primaryText="Tags" />
-        <MenuItem primaryText="Submit" />
+        <MenuItem >{<Link to='/'>new</Link>} </MenuItem>
+        <MenuItem  > {<Link to='/top'>top</Link>}</MenuItem>
+        <MenuItem  > <Link to='/search'>search</Link></MenuItem>
+        <MenuItem  > <Link to='/category'>categories</Link></MenuItem>
+        <MenuItem > <Link to='/createtag'>create tag </Link></MenuItem>
+
+          <MenuItem >
+            <Link to='/create' >submit product</Link>
+          </MenuItem>
+
+
       </IconMenu>
     );
 

@@ -34,7 +34,7 @@ class Product extends Component {
         </CardMedia>
         <CardTitle title={this.props.link.title} subtitle={this.props.link.url} />
         <CardText>
-
+        <div><Link to={'/product/'+this.props.link.id} >Title: {this.props.link.title}</Link></div>
         <div><strong> Description:</strong> {this.props.link.description} </div>
         <div> <strong> URL: </strong> <a href={this.props.link.url}>{this.props.link.url}</a></div>
         <div> <strong> Category: </strong> {this.props.link.category}  </div>
@@ -63,8 +63,8 @@ class Product extends Component {
         <div className='f6 lh-copy gray'>  {this.props.link.votes.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
         </CardText>
         <CardActions>
-          <FlatButton label="View more" />
-          <FlatButton label="Like" />
+          <FlatButton label={<Link to={'/product/'+this.props.link.id} > View More</Link>} />
+          
         </CardActions>
       </Card>
 

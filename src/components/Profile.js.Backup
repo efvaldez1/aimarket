@@ -16,14 +16,23 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+
 
 class Profile extends Component {
   render() {
     const userId = localStorage.getItem(GC_USER_ID)
     console.log('userId')
     console.log(userId)
+
+    console.log(user)
+
+    console.log("find user")
+    console.log(user)
+
+
+    console.log("found")
+    console.log(user)
+
     if (this.props.allUsersQuery && this.props.allUsersQuery.loading) {
       return <div>Loading</div>
     }
@@ -31,27 +40,33 @@ class Profile extends Component {
     if (this.props.allUsersQuery && this.props.allUsersQuery.error) {
       console.log(this.props.allUsersQuery.error)
       return <div>Error</div>
-    }
-    //const user ={}
+    }    const user ={}
+    const userId = localStorage.getItem(GC_USER_ID)
+    console.log('userId')
+    console.log(userId)
+    const user = this.props.findUserQuery.findUser({
+        variables: {
+        userId
+      }
+    })
+    console.log("find user")
+    console.log(user)
+
     //all users then traverse till you find specific user
     const result = this.props.allUsersQuery.allUsers
     console.log(result)
+
     const len = result.length
     console.log("len")
     console.log(len)
-    for (var i = 0; i < len; i++) {
-     if(result[i].id===userId)
-    {
-      console.log("hey")
-      console.log(result[i])
-      var user = result[i]
-     }
-    }
+    //for (var i = 0; i < len; i++) {
+    //  if(result[i].id===userId)
+    //{
+    //    user=result[i]
+    //  }
+    //}
     console.log("found")
     console.log(user)
-    console.log("links")
-    //console.log(user.links)
-
     return (
       <div>
       <div >
@@ -60,30 +75,6 @@ class Profile extends Component {
         Email:{user.email}
         No.Of Products Submitted:
         No. Of Offers Created:
-        <Card>
-          <CardHeader
-            title="URL Avatar"
-            subtitle="Subtitle"
-            avatar="images/jsa-128.jpg"
-          />
-          <CardMedia
-            overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
-          >
-            <img src="images/nature-600-337.jpg" alt="" />
-          </CardMedia>
-          <CardTitle title="Card title" subtitle="Card subtitle" />
-          <CardText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-          </CardText>
-          <CardActions>
-            <FlatButton label="Action1" />
-            <FlatButton label="Action2" />
-          </CardActions>
-        </Card>
-
       </div>
       <div>
         Products:
@@ -92,28 +83,36 @@ class Profile extends Component {
             <TableRow>
               <TableHeaderColumn>ID</TableHeaderColumn>
               <TableHeaderColumn>Name</TableHeaderColumn>
-              <TableHeaderColumn>Category</TableHeaderColumn>
-
-              <TableHeaderColumn>Date Created</TableHeaderColumn>
-              <TableHeaderColumn>Last Updated</TableHeaderColumn>
-
-              
+              <TableHeaderColumn>No. Of. Votes</TableHeaderColumn>
+              <TableHeaderColumn>No. Of. Offers</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {user.links.map((link)=>
-              (
-                <TableRow>
-                  <TableRowColumn> {link.id}</TableRowColumn>
-                  <TableRowColumn> {link.title}</TableRowColumn>
-                  <TableRowColumn> {link.category}</TableRowColumn>
-                  <TableRowColumn> {link.createdAt}</TableRowColumn>
-                  <TableRowColumn> {link.updatedAt}</TableRowColumn>
-
-                </TableRow>
-              )
-            )
-            }
+            <TableRow>
+              <TableRowColumn>1</TableRowColumn>
+              <TableRowColumn>John Smith</TableRowColumn>
+              <TableRowColumn>Employed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>2</TableRowColumn>
+              <TableRowColumn>Randal White</TableRowColumn>
+              <TableRowColumn>Unemployed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>3</TableRowColumn>
+              <TableRowColumn>Stephanie Sanders</TableRowColumn>
+              <TableRowColumn>Employed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>4</TableRowColumn>
+              <TableRowColumn>Steve Brown</TableRowColumn>
+              <TableRowColumn>Employed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>5</TableRowColumn>
+              <TableRowColumn>Christopher Nolan</TableRowColumn>
+              <TableRowColumn>Unemployed</TableRowColumn>
+            </TableRow>
           </TableBody>
         </Table>
 
@@ -195,3 +194,4 @@ export default compose(
   graphql(ALL_USERS_QUERY, {name:'allUsersQuery'}),
   graphql(FIND_USER_QUERY, { name: 'findUserQuery' })
 )(Profile)
+Pro

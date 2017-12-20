@@ -18,6 +18,7 @@ type Link @model {
   tags: [Tag!]! @relation(name: "LinkTags")
 }
 
+
 type Offer @model {
   id: ID! @isUnique
   amount: String!
@@ -39,11 +40,11 @@ type Comment @model {
 }
 
 type User @model {
-  id: ID! @isUnique
+  id: ID!   @isUnique
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
-  email: String @isUnique
+  email: String!
   password: String
   offers: [Offer!]! @relation(name: "UserOffers")
   links: [Link!]! @relation(name: "UsersLinks")
