@@ -5,6 +5,9 @@ import Link from './Link'
 import Select from 'react-select'
 import Multiselect from './Multiselect'
 import CategoryList from './CategoryList'
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+
 class Search extends Component {
   constructor() {
     super();
@@ -20,6 +23,8 @@ class Search extends Component {
   }
 
   handleSelect(event){
+    console.log("handle")
+    console.log(event.target.value)
     this.setState({ categoryText: event.target.value})
   }
 
@@ -29,13 +34,19 @@ class Search extends Component {
     console.log(tag)
   }
 
+  handleChange = (event) => {
+
+  this.setState({
+    searchText: event.target.value,
+  });
+};
   render() {
     if (this.props.allTagQuery && this.props.allTagQuery.loading) {
       return <div>Loading</div>
     }
 
     if (this.props.allTagQuery && this.props.allTagQuery.error) {
-      console.log(this.props.allTagQuery.error)
+        console.log(this.props.allTagQuery.error)
       return <div>Error</div>
     }
     const tagToRender = this.props.allTagQuery.allTags
@@ -49,26 +60,16 @@ class Search extends Component {
 
       <div>
         <div>
-          <label><strong>Search</strong></label>
-
-          <input
-            type='text'
-            placeholder="Title Or Description "
-
-            onChange={(e) => this.setState({ searchText: e.target.value })}
-          />
+          <TextField
+            hintText="Search Title or Description"
+            onChange={this.handleChange}
+          /><br/>
 
           <div onChange={this.handleSelect}>
-            <div> <label>Category :</label></div><CategoryList  name='mySelect' />
+            <CategoryList  name='mySelect' />
           </div>
 
-
-
-          <button
-            onClick={() => this._executeSearch()}
-          >
-            OK
-          </button>
+          <RaisedButton primary={true} label="Submit Category" onClick={() => this._executeSearch()} />
         </div>
         {this.state.links.map((link, index) => <Link key={link.id} link={link} index={index}/>)}
       </div>

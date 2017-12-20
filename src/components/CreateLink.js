@@ -7,6 +7,30 @@ import CategoryList from './CategoryList'
 import Select from 'react-select'
 //import Multiselect from './Multiselect'
 
+
+//Material UI
+import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
+
+const style = {
+  margin: 12,
+};
+
+const names = [
+'Oliver Hansen',
+'Van Henry',
+'April Tucker',
+'Ralph Hubbard',
+'Omar Alexander',
+'Carlos Abbott',
+'Miriam Wagner',
+'Bradley Wilkerson',
+'Virginia Andrews',
+'Kelly Snyder',
+];
+
 class CreateLink extends Component {
   constructor() {
     super();
@@ -17,7 +41,8 @@ class CreateLink extends Component {
   handleSelect(event){
     // /alert(this.refs.form.mySelect.value)
     //alert(event.target.value)
-    //console.log(this.refs.form.mySelect.value)
+    //console.log(this.refs.form.mySelect.value
+    console.log(event.target.value)
     this.setState({ category: event.target.value})
   }
   handleMultiSelect = (tag) => {
@@ -39,12 +64,30 @@ class CreateLink extends Component {
     title: '',
     description: '',
     url: '',
-    category:'Publications',        // how to change to first element of API call
+    category:'Publication',        // how to change to first element of API call
     tag:'',
     tagsTemp:''
   }
 
+  handleSelect = (event, index, category) => {
 
+  this.setState({category});
+  console.log("event")
+  console.log(event.target)
+  console.log(this.state.category)
+  }
+  handleChange = (event, index, values) => this.setState({values});
+  menuItems(values) {
+    return names.map((name) => (
+      <MenuItem
+        key={name}
+        insetChildren={true}
+        checked={values && values.indexOf(name) > -1}
+        value={name}
+        primaryText={name}
+      />
+    ));
+  }
 
   render() {
     if (this.props.allTagQuery && this.props.allTagQuery.loading) {
@@ -57,66 +100,67 @@ class CreateLink extends Component {
     }
     const tagToRender = this.props.allTagQuery.allTags
     const options=[]
+    const names=[]
     tagToRender.map((tag,id)=>
     {
+      options.push(tag.name)
       options.push({'value':tag.id,'label':tag.name})
     }
     )
     const combolist = [{id:1,name:'publication'},{id:2,name:'software'}]
+    const {values} = this.state;
+
+
+
 
     return (
       <div >
         <div className='flex flex-column mt3'>
-        <input
-          className='mb2'
+        <TextField
+          hintText="Enter Title"
           value={this.state.title}
           onChange={(e) => this.setState({ title: e.target.value })}
-          type='text'
-          placeholder='Title of the Product'
-        />
+        /><br />
 
-        <textarea
-            className='mb2'
-            value={this.state.description}
-            onChange={(e) => this.setState({ description: e.target.value })}
-            placeholder='A description for the product'
-        />
+        <TextField
+          hintText="Enter Description"
+          multiLine={true}
+          rows={1}
+          rowsMax={15}
+          value={this.state.description}
+          onChange={(e) => this.setState({ description: e.target.value })}
+        /><br />
 
-        <input
-            className='mb2'
-            value={this.state.url}
-            onChange={(e) => this.setState({ url: e.target.value })}
-            type='text'
-            placeholder='The URL for the product'
-        />
+        <TextField
+          hintText="Enter URL"
+          value={this.state.url}
+          onChange={(e) => this.setState({ url: e.target.value })}
+        /><br />
 
         <div onChange={this.handleSelect}>
-        Category :
-        <CategoryList  name='mySelect'
-        />
+        <CategoryList  />
         </div>
 
-
           <label>Select as many</label>
-
           <Select
-
             onChange={this.handleMultiSelect}
             value={this.state.tag}
             multi={true}
         		options={options}
           />
 
+          <SelectField
+            multiple={true}
+            hintText="Select a name"
+            value={values}
+            onChange={this.handleChange}
+          >
+            {this.menuItems(values)}
+          </SelectField>
+
         </div>
 
-
-
-        <button
-          onClick={() => this._createLink ()}
-        >
-          Submit
-        </button>
-
+        <RaisedButton onClick={() => this._createLink ()} label="Submit" primary={true} style={style} />
       </div>
     )
   }
@@ -225,3 +269,59 @@ export default compose(
   graphql(ALL_TAG_QUERY, {name:'allTagQuery'}),
   graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })
 )(CreateLink)
+
+
+// <div >
+//   <div className='flex flex-column mt3'>
+//   <input
+//     className='mb2'
+//     value={this.state.title}
+//     onChange={(e) => this.setState({ title: e.target.value })}
+//     type='text'
+//     placeholder='Title of the Product'
+//   />
+//
+//   <label>{this.state.title}</label>
+//   <textarea
+//       className='mb2'
+//       value={this.state.description}
+//       onChange={(e) => this.setState({ description: e.target.value })}
+//       placeholder='A description for the product'
+//   />
+//
+//   <input
+//       className='mb2'
+//       value={this.state.url}
+//       onChange={(e) => this.setState({ url: e.target.value })}
+//       type='text'
+//       placeholder='The URL for the product'
+//   />
+//
+//   <div onChange={this.handleSelect}>
+//   Category :
+//   <CategoryList  name='mySelect'
+//   />
+//   </div>
+//
+//
+//     <label>Select as many</label>
+//
+//     <Select
+//
+//       onChange={this.handleMultiSelect}
+//       value={this.state.tag}
+//       multi={true}
+//       options={options}
+//     />
+//
+//   </div>
+//
+//
+//
+//   <button
+//     onClick={() => this._createLink ()}
+//   >
+//     Submit
+//   </button>
+//
+// </div>

@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import {graphql} from 'react-apollo'
 import gql from 'graphql-tag'
 
+//Material UI
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+
 class CreateCategory extends Component {
 
   state = {
@@ -12,20 +16,17 @@ class CreateCategory extends Component {
     return (
       <div>
         <div className='flex flex-column mt3'>
-          <input
-            className='mb2'
+
+          <TextField
+            hintText="Enter Title Of Categpry"
             value={this.state.name}
             onChange={(e) => this.setState({ name: e.target.value })}
-            type='text'
-            placeholder='Name for the category'
-          />
+          /><br />
 
         </div>
-        <button
-          onClick={() => this._createCategory()}
-        >
-          Submit
-        </button>
+
+
+        <RaisedButton primary={true} label="Submit Category" />
       </div>
     )
   }

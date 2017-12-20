@@ -10,6 +10,7 @@ class ProductPage extends Component {
   componentDidMount() {
     this._subscribeToNewOffers()
     this._subscribeToNewComments()
+    this._subscribeToLinkUpdate()
   }
   render() {
     if (this.props.allLinksQuery && this.props.allLinksQuery.loading) {
@@ -139,10 +140,6 @@ const ALL_LINKS_QUERY = gql`
         id
         amount
         offerdescription
-        offerBy{
-          id
-          name
-        }
         comments{
           id
           content
@@ -167,7 +164,6 @@ const ALL_LINKS_QUERY = gql`
   }
 `
 
-
 const CREATE_VOTE_MUTATION = gql`
   mutation CreateVoteMutation($userId: ID!, $linkId: ID!) {
     createVote(userId: $userId, linkId: $linkId) {
@@ -186,7 +182,6 @@ const CREATE_VOTE_MUTATION = gql`
     }
   }
 `
-
 
 export default compose(
   graphql(ALL_LINKS_QUERY, {name: 'allLinksQuery'}),

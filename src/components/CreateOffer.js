@@ -85,7 +85,7 @@ class CreateOffer extends Component {
     }
   })
   //do I still need to push() if I make subscription work?
-  this.props.history.push(`/new/1`)
+  //this.props.history.push(`/new/1`)
   }
 
 }

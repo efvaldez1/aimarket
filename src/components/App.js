@@ -13,10 +13,18 @@ import ProductPage from './ProductPage'
 import Profile from './Profile'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
+//Material UI
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
 class App extends Component {
   render() {
+
+
     return (
+      <MuiThemeProvider>
       <div className='center w85'>
+
         <Header />
         <div className='ph3 pv1 background-gray'>
           <Switch>
@@ -36,6 +44,7 @@ class App extends Component {
           </Switch>
         </div>
       </div>
+      </MuiThemeProvider>
     )
   }
 

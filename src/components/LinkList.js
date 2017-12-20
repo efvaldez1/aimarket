@@ -82,37 +82,53 @@ class LinkList extends Component {
   }
 
   _subscribeToNewLinks = () => {
+    console.log("new links")
     this.props.allLinksQuery.subscribeToMore({
       document: gql`
         subscription {
           Link(filter: {
-            mutation_in: [CREATED]
+            mutation_in: [CREATED,UPDATED,DELETED]
           }) {
             node {
               id
+              title
+              createdAt
               url
               description
-              createdAt
               postedBy {
                 id
                 name
+              }
+
+              offers{
+                id
+                amount
+                offerBy{
+                  id
+                  name
+                }
               }
               votes {
                 id
                 user {
                   id
+                  name
                 }
-
               }
+
               tags {
                 id
-                name
               }
             }
+
           }
+
         }
       `,
+
       updateQuery: (previous, { subscriptionData }) => {
+        console.log("update links")
+        console.log(subscriptionData.Link.node)
         const newAllLinks = [
           subscriptionData.Link.node,
           ...previous.allLinks
@@ -127,6 +143,7 @@ class LinkList extends Component {
   }
 
   _subscribeToNewVotes = () => {
+    console.log("new votes")
     this.props.allLinksQuery.subscribeToMore({
       document: gql`
         subscription {
@@ -144,6 +161,17 @@ class LinkList extends Component {
                   id
                   name
                 }
+                offers{
+                  id
+                  amount
+                  comments{
+                    id
+                    content
+                  }
+                }
+                tags{
+                  id
+                }
                 votes {
                   id
                   user {
@@ -159,6 +187,7 @@ class LinkList extends Component {
         }
       `,
       updateQuery: (previous, { subscriptionData }) => {
+        console.log("update votes")
         const votedLinkIndex = previous.allLinks.findIndex(link => link.id === subscriptionData.Vote.node.link.id)
         const link = subscriptionData.Vote.node.link
         const newAllLinks = previous.allLinks.slice()
@@ -230,3 +259,19 @@ export default graphql(ALL_LINKS_QUERY, {
     }
   }
 })(LinkList)
+
+
+//subscription {
+//  Link(
+//    filter: {
+//      mutation_in: [CREATED, UPDATED, DELETED]
+//    }
+//  ) {
+//    node {
+//        id
+//        url
+//        description
+//    }
+//
+//  }
+//}

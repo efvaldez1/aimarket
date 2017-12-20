@@ -8,6 +8,9 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 
 
+// Material UI
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 class Product extends Component {
   render() {
@@ -15,40 +18,60 @@ class Product extends Component {
     console.log('key')
     console.log(this.props.key)
     return (
-      <div className='flex mt2 items-start'>
-        <div className='flex items-center'>
-          <span className='gray'>{this.props.index + 1}.</span>
-          {userId && <div className='ml1 gray f11' onClick={() => this._voteForLink()}>Vote ▲ </div>}
-        </div>
-        <div className='ml1'>
-          <div> <strong>ID:</strong> {this.props.link.id} </div>
+      <div>
 
-          <Link to={'/product/'+this.props.link.id} >Title: {this.props.link.title}</Link>
-          <div><strong> Description:</strong> {this.props.link.description} </div>
-          <div> <strong> URL: </strong> <a href={this.props.link.url}>{this.props.link.url}</a></div>
-          <div> <strong> Category: </strong> {this.props.link.category}  </div>
-          <div> <strong> Tags: </strong>
-              {this.props.link.tags.map((tagItem)=>
-              (<li>{tagItem.name}</li>)
-              )
-              }
-          </div>
-          <div> <strong> No. Of Offers: </strong> {this.props.link.offers.length}  </div>
-          <div> <strong> Offers: </strong>
-              {this.props.link.offers.map((offerItem)=>
-              ( <div>
-                <li>Offer By: {offerItem.offerBy.name}</li>
-                <li> amount: {offerItem.amount}</li>
-                <li> description: {offerItem.offerdescription}</li>
-                <br/>
-                </div>
-              )
-              )
-              }
-          </div>
-          <div className='f6 lh-copy gray'>{this.props.link.votes.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
+
+      <Card>
+        <CardHeader
+          title={this.props.link.title}
+          subtitle={this.props.link.description}
+          avatar="images/jsa-128.jpg"
+        />
+        <CardMedia
+          overlay={<CardTitle title={this.props.link.title} subtitle={this.props.link.url} />}
+        >
+          <img src="images/nature-600-337.jpg" alt="" />
+        </CardMedia>
+        <CardTitle title={this.props.link.title} subtitle={this.props.link.url} />
+        <CardText>
+
+        <div><strong> Description:</strong> {this.props.link.description} </div>
+        <div> <strong> URL: </strong> <a href={this.props.link.url}>{this.props.link.url}</a></div>
+        <div> <strong> Category: </strong> {this.props.link.category}  </div>
+        <div> <strong> Tags: </strong>
+            {this.props.link.tags.map((tagItem)=>
+            (<li>{tagItem.name}</li>)
+            )
+            }
         </div>
+        <div> <strong> No. Of Offers: </strong> {this.props.link.offers.length}  </div>
+        <div> <strong> Offers: </strong>
+            {this.props.link.offers.map((offerItem)=>
+            ( <div>
+              <li>Offer By: {offerItem.offerBy.name}</li>
+              <li> amount: {offerItem.amount}</li>
+              <li> description: {offerItem.offerdescription}</li>
+              <br/>
+              </div>
+            )
+            )
+            }
+        </div>
+        <div className='flex items-center'>
+             {userId && <div className='ml1 gray f11' onClick={() => this._voteForLink()}>Vote ▲ </div>}
+        </div>
+        <div className='f6 lh-copy gray'>  {this.props.link.votes.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
+        </CardText>
+        <CardActions>
+          <FlatButton label="View more" />
+          <FlatButton label="Like" />
+        </CardActions>
+      </Card>
+
+
       </div>
+
+
     )
   }
   //_goToProductPage = async() =>{
@@ -101,3 +124,37 @@ const CREATE_VOTE_MUTATION = gql`
 
 export default graphql(CREATE_VOTE_MUTATION, {name: 'createVoteMutation'})(Product)
 //export default withRouter(Link)
+
+//
+// <div className='flex mt2 items-start'>
+//   <div className='flex items-center'>
+//     <span className='gray'>{this.props.index + 1}.</span>
+//     {userId && <div className='ml1 gray f11' onClick={() => this._voteForLink()}>Vote ▲ </div>}
+//   </div>
+//   <div className='ml1'>
+//     <Link to={'/product/'+this.props.link.id} >Title: {this.props.link.title}</Link>
+//     <div><strong> Description:</strong> {this.props.link.description} </div>
+//     <div> <strong> URL: </strong> <a href={this.props.link.url}>{this.props.link.url}</a></div>
+//     <div> <strong> Category: </strong> {this.props.link.category}  </div>
+//     <div> <strong> Tags: </strong>
+//         {this.props.link.tags.map((tagItem)=>
+//         (<li>{tagItem.name}</li>)
+//         )
+//         }
+//     </div>
+//     <div> <strong> No. Of Offers: </strong> {this.props.link.offers.length}  </div>
+//     <div> <strong> Offers: </strong>
+//         {this.props.link.offers.map((offerItem)=>
+//         ( <div>
+//           <li>Offer By: {offerItem.offerBy.name}</li>
+//           <li> amount: {offerItem.amount}</li>
+//           <li> description: {offerItem.offerdescription}</li>
+//           <br/>
+//           </div>
+//         )
+//         )
+//         }
+//     </div>
+//     <div className='f6 lh-copy gray'>{this.props.link.votes.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
+//   </div>
+// </div>
